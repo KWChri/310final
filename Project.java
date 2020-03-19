@@ -6,18 +6,63 @@ public class Project {
   
   public static void main(String[] args) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
     
+    //**
+    // probably add some methods here for the connection to the databases
+    //
     
+    //user input cases:
+
+    if (args[0].equals("/?")) {
+      printUsage();
+    }
     
+    else if (args[0].equals("CreateItem") && args.length == 4) {
+      //method goes in here
+    }
     
+    else if (args[0].equals("CreatePurchase") && args.length == 3) {
+      //method goes in here
+    }
     
+    else if (args[0].equals("CreateShipment") && args.length == 4) {
+      //method goes in here
+    }
     
+    else if (args[0].equals("GetItems") && args.length == 2) {
+      //method goes in here
+    }
     
+    else if (args[0].equals("GetShipments") && args.length == 2) {
+      //method goes in here
+    }
     
+    else if (args[0].equals("GetPurchases") && args.length == 2) {
+      //method goes in here
+    }
     
+    else if (args[0].equals("ItemsAvailable") && args.length == 2) {
+      //method goes in here
+    }
     
+    else if (args[0].equals("UpdateItem") && args.length == 3) {
+      //method goes in here
+    }
     
+    else if (args[0].equals("DeleteItem") && args.length == 2) {
+      //method goes in here
+    }
     
+    else if (args[0].equals("DeleteShipment") && args.length == 2) {
+      //method goes in here
+    }
     
+    else if (args[0].equals("DeletePurchase") && args.length == 2) {
+      //method goes in here
+    }
+    
+    else {
+      printUsage();
+    }
     
   }
   
