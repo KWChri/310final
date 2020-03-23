@@ -66,6 +66,26 @@ public class Project {
     
   }
   
+public static void getConnection(String port, String database, String password) { //args[0] = port, args[1] = database, args[2] = password
+
+Connection connect = null;
+
+try {
+
+connect = DriverManager.getConnection("jdbc:mysql://localhost:" + port + "/test?verifyServerCertificate=false&useSSL=true", "msandbox", password);
+
+System.out.println("Database" + database + " connection succeeded!! :~)");
+System.out.println();
+
+} 
+
+catch (SQLException exception) {
+System.err.println("SQLException: " + exception.getMessage());
+System.err.println("SQLState: " + exception.getSQLState());
+System.err.println("VendorError: " + exception.getErrorCode());
+}
+  
+}
   //Method that creates the item
   public static void CreateItem (String itemCode, String itemDescription, String price) {
     
