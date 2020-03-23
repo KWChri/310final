@@ -6,6 +6,7 @@ public class Project {
 
   Statement stmt = stmt2 = null;
   ResultSet resultset = null;
+  String dbname = "finalProject";
   
   public static void main(String[] args) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
     
@@ -16,7 +17,7 @@ public class Project {
     
     //Connection with information to get to database
     //THIS NEEDS TO BE MODIFIED!!!!!!!!!!!!!!!!!!!!!!!!!
-    Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
+    Connection connect = getConnection("55926", dbname, "5eu23rk4yl33");
 
     if (args[0].equals("/?")) {
       printUsage();
@@ -27,7 +28,7 @@ public class Project {
     }
     
     else if (args[0].equals("CreatePurchase") && args.length == 3) {
-      //method goes in here
+      CreatePurchase(args[1], args[2]);
     }
     
     else if (args[0].equals("CreateShipment") && args.length == 4) {
@@ -114,7 +115,7 @@ Connection connect = null;
   public static void CreatePurchase (String itemCode, int purchaseQuantity) {
     
     try {
-     //insert stuff here 
+     
     }
     
     catch (SQLException exception) {
