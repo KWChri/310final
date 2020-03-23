@@ -74,20 +74,18 @@ public static void getConnection(String port, String database, String password) 
 
 Connection connect = null;
 
-try {
+  try {
+    connect = DriverManager.getConnection("jdbc:mysql://localhost:" + port + "/test?verifyServerCertificate=false&useSSL=true", "msandbox", password);
 
-connect = DriverManager.getConnection("jdbc:mysql://localhost:" + port + "/test?verifyServerCertificate=false&useSSL=true", "msandbox", password);
+    System.out.println("Database" + database + " connection succeeded!! :~)");
+    System.out.println();
+  } 
 
-System.out.println("Database" + database + " connection succeeded!! :~)");
-System.out.println();
-
-} 
-
-catch (SQLException exception) {
-System.err.println("SQLException: " + exception.getMessage());
-System.err.println("SQLState: " + exception.getSQLState());
-System.err.println("VendorError: " + exception.getErrorCode());
-}
+  catch (SQLException exception) {
+    System.err.println("SQLException: " + exception.getMessage());
+    System.err.println("SQLState: " + exception.getSQLState());
+    System.err.println("VendorError: " + exception.getErrorCode());
+  }
   
 }
   //Method that creates the item
