@@ -139,7 +139,7 @@ Connection connect = null;
       
     }
     
-  }
+  } //end of createItem method
   
   //Method the creates the purchase
   public static void CreatePurchase (String itemCode, int purchaseQuantity) {
@@ -164,7 +164,11 @@ Connection connect = null;
   public static void CreateShipment (String itemCode, int shipmentQuantity, date shipmentDate) {
     
     try {
-     //insert stuff here 
+     stmt.connection.createStatement();
+     resultset = stmt.executeQuery("CALL CreateShipment('" + itemCode + "', " + shipmentQuantity + ", '" + shipmentDate "');");
+     
+     System.out.println();
+     System.out.println("Shipment was successfully created.");
     }
     
     catch (SQLException exception) {
@@ -174,9 +178,36 @@ Connection connect = null;
     }
     
     finally {
-      //insert stuff here
-    }
-  }
+      
+     //if the statement DOES NOT equate to NULL
+      if (stmt != null) {
+        try {
+          stmt.close();
+        }
+        catch (SQLException sqlEx) {
+          //ignore this
+        }
+        
+        //sets stmt to null
+        stmt = null;
+      }
+      
+      //if the result set DOES NOT equate to NULL
+      if (resultset != null) {
+        try {
+          resultset.close();
+        }
+        catch (SQLException sqlEx) {
+          //ignore this
+        } 
+        
+        //sets resultset to null
+        resultset = null;
+      }
+      
+    } //end of finally clause
+    
+  } //end of createShipment method
   
   //Method that gets the items
   public static void GetItems (String itemCode) {
