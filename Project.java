@@ -421,18 +421,19 @@ Connection connect = null;
    
     ResultSetMetaData rsmd = resultset.getMetaData();
 
-		int columnsNumber = rsmd.getColumnCount();
+    int columnsNumber = rsmd.getColumnCount();
     
-				while (resultset.next()) {
+    while (resultset.next()) {
           
-					for (int i = 1; i <= columnsNumber; i++) {
-						if (i > 1) 
-              System.out.print(",  ");
+	for (int i = 1; i <= columnsNumber; i++) {
+		if (i > 1) {
+		   System.out.print(",  ");
+		}
             
-						String columnValue = resultset.getString(i);
-						System.out.print(columnValue + " " + rsmd.getColumnName(i));
-					}
-					System.out.println(" ");
-				}
-
+		String columnValue = resultset.getString(i);
+		System.out.print(columnValue + " " + rsmd.getColumnName(i));
+	}
+	    
+	System.out.println(" ");
+    }
 }
