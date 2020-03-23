@@ -95,9 +95,11 @@ Connection connect = null;
   //Method that creates the item
   public static void CreateItem (String itemCode, String itemDescription, String price) {
     
+    String query = "CALL CreateItem('" + itemCode + "', '" + itemDescription + "'," + price + ");";    
+    
     try {
      stmt = connection.createStatement();
-     resultset = stmt.executeQuery("CALL CreateItem('" + itemCode + "', '" + itemDescription + "'," + price + ");");
+     resultset = stmt.executeQuery(query);
      
      System.out.println();
      System.out.println("Item " + itemCode + " created.");
@@ -163,9 +165,11 @@ Connection connect = null;
   //Method that creates the shipment
   public static void CreateShipment (String itemCode, int shipmentQuantity, date shipmentDate) {
     
+    String query = "CALL CreateShipment('" + itemCode + "', " + shipmentQuantity + ", '" + shipmentDate "');";
+    
     try {
      stmt.connection.createStatement();
-     resultset = stmt.executeQuery("CALL CreateShipment('" + itemCode + "', " + shipmentQuantity + ", '" + shipmentDate "');");
+     resultset = stmt.executeQuery(query);
      
      System.out.println();
      System.out.println("Shipment was successfully created.");
