@@ -66,7 +66,8 @@ public class Project {
     
   }
   
-public static void getConnection(String port, String database, String password) { //args[0] = port, args[1] = database, args[2] = password
+//connection method for the database
+public static void getConnection(String port, String database, String password) { 
 
 Connection connect = null;
 
