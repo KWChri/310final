@@ -168,7 +168,7 @@ Connection connect = null;
     String query = "CALL CreateShipment('" + itemCode + "', " + shipmentQuantity + ", '" + shipmentDate "');";
     
     try {
-     stmt.connection.createStatement();
+     stmt = connection.createStatement();
      resultset = stmt.executeQuery(query);
      
      System.out.println();
@@ -234,8 +234,24 @@ Connection connect = null;
   //Method that gets the shipments
   public static void GetShipments (String itemCode) {
     
+    String query_1 = "SELECT * FROM Shipment;";
+    String query_2 = "SELECT * FROM Shipment JOIN Item ON Shipment.ItemID = Item.ID WHERE Item.ItemCode = '" + itemCode + "';";
+    
     try {
-     //insert stuff here 
+     stmt = connection.createStatement();
+      
+      //if itemCode equals to "%"
+      if (itemCode.equals("%")) {
+        resultset = stmt.executeQuery(query_1);
+      }
+      
+      else {
+        resultset = stmt.executeQuery(query_2);
+      }  
+      
+      //prints the result set
+      getResults(resultset);
+      
     }
     
     catch (SQLException exception) {
@@ -374,5 +390,23 @@ Connection connect = null;
     
   }
   
- 
+  //Use result sets (tables) to navigate through the results
+  private static void getResults(ResultSet resultset) throws SQLException {
+   
+    ResultSetMetaData rsmd = resultset.getMetaData();
+
+		int columnsNumber = rsmd.getColumnCount();
+    
+				while (resultset.next()) {
+          
+					for (int i = 1; i <= columnsNumber; i++) {
+						if (i > 1) 
+              System.out.print(",  ");
+            
+						String columnValue = resultset.getString(i);
+						System.out.print(columnValue + " " + rsmd.getColumnName(i));
+					}
+					System.out.println(" ");
+				}
+
 }
