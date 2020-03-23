@@ -96,7 +96,11 @@ Connection connect = null;
   public static void CreateItem (String itemCode, String itemDescription, String price) {
     
     try {
-     //insert stuff here 
+     stmt = connection.createStatement();
+     resultset = stmt.executeQuery("CALL CreateItem('" + itemCode + "', '" + itemDescription + "'," + price + ");");
+     
+     System.out.println();
+     System.out.println("Item " + itemCode + " created.");
     }
     
     catch (SQLException exception) {
@@ -106,7 +110,33 @@ Connection connect = null;
     }
     
     finally {
-      //insert stuff here
+      
+      //if the statement DOES NOT equate to NULL
+      if (stmt != null) {
+        try {
+          stmt.close();
+        }
+        catch (SQLException sqlEx) {
+          //ignore this
+        }
+        
+        //sets stmt to null
+        stmt = null;
+      }
+      
+      //if the result set DOES NOT equate to NULL
+      if (resultset != null) {
+        try {
+          resultset.close();
+        }
+        catch (SQLException sqlEx) {
+          //ignore this
+        } 
+        
+        //sets resultset to null
+        resultset = null;
+      }
+      
     }
     
   }
