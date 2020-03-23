@@ -3,6 +3,9 @@ import java.util.*;
 import java.sql.*;
 
 public class Project {
+
+  Statement stmt = stmt2 = null;
+  ResultSet resultset = null;
   
   public static void main(String[] args) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
     
