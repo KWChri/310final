@@ -93,56 +93,201 @@ System.err.println("VendorError: " + exception.getErrorCode());
   //Method that creates the item
   public static void CreateItem (String itemCode, String itemDescription, String price) {
     
+    try {
+     //insert stuff here 
+    }
+    
+    catch (SQLException exception) {
+      System.err.println("SQLException: " + exception.getMessage());
+      System.err.println("SQLState: " + exception.getSQLState());
+      System.err.println("VendorError: " + exception.getErrorCode()); 
+    }
+    
+    finally {
+      //insert stuff here
+    }
+    
   }
   
   //Method the creates the purchase
   public static void CreatePurchase (String itemCode, int purchaseQuantity) {
+    
+    try {
+     //insert stuff here 
+    }
+    
+    catch (SQLException exception) {
+      System.err.println("SQLException: " + exception.getMessage());
+      System.err.println("SQLState: " + exception.getSQLState());
+      System.err.println("VendorError: " + exception.getErrorCode()); 
+    }
+    
+    finally {
+      //insert stuff here
+    }
     
   }
   
   //Method that creates the shipment
   public static void CreateShipment (String itemCode, int shipmentQuantity, date shipmentDate) {
     
+    try {
+     //insert stuff here 
+    }
+    
+    catch (SQLException exception) {
+      System.err.println("SQLException: " + exception.getMessage());
+      System.err.println("SQLState: " + exception.getSQLState());
+      System.err.println("VendorError: " + exception.getErrorCode()); 
+    }
+    
+    finally {
+      //insert stuff here
+    }
   }
   
   //Method that gets the items
   public static void GetItems (String itemCode) {
     
+    try {
+     //insert stuff here 
+    }
+    
+    catch (SQLException exception) {
+      System.err.println("SQLException: " + exception.getMessage());
+      System.err.println("SQLState: " + exception.getSQLState());
+      System.err.println("VendorError: " + exception.getErrorCode()); 
+    }
+    
+    finally {
+      //insert stuff here
+    }
   }
   
   //Method that gets the shipments
   public static void GetShipments (String itemCode) {
     
+    try {
+     //insert stuff here 
+    }
+    
+    catch (SQLException exception) {
+      System.err.println("SQLException: " + exception.getMessage());
+      System.err.println("SQLState: " + exception.getSQLState());
+      System.err.println("VendorError: " + exception.getErrorCode()); 
+    }
+    
+    finally {
+      //insert stuff here
+    }
   }
   
   //Method that gets the purchases
   public static void GetPurchases (String itemCode) {
     
+    try {
+     //insert stuff here 
+    }
+    
+    catch (SQLException exception) {
+      System.err.println("SQLException: " + exception.getMessage());
+      System.err.println("SQLState: " + exception.getSQLState());
+      System.err.println("VendorError: " + exception.getErrorCode()); 
+    }
+    
+    finally {
+      //insert stuff here
+    }
   }
   
   //Method that shows the items that are available
   public static void ItemsAvailable (String itemcCode) {
     
+    try {
+     //insert stuff here 
+    }
+    
+    catch (SQLException exception) {
+      System.err.println("SQLException: " + exception.getMessage());
+      System.err.println("SQLState: " + exception.getSQLState());
+      System.err.println("VendorError: " + exception.getErrorCode()); 
+    }
+    
+    finally {
+      //insert stuff here
+    }
   }
   
   //Method that updates an item
   public static void UpdateItem (String itemCode, String price) {
     
+    try {
+     //insert stuff here 
+    }
+    
+    catch (SQLException exception) {
+      System.err.println("SQLException: " + exception.getMessage());
+      System.err.println("SQLState: " + exception.getSQLState());
+      System.err.println("VendorError: " + exception.getErrorCode()); 
+    }
+    
+    finally {
+      //insert stuff here
+    }
   }
   
   //Method that deletes an item
   public static void DeleteItem (String itemCode) {
     
+    try {
+     //insert stuff here 
+    }
+    
+    catch (SQLException exception) {
+      System.err.println("SQLException: " + exception.getMessage());
+      System.err.println("SQLState: " + exception.getSQLState());
+      System.err.println("VendorError: " + exception.getErrorCode()); 
+    }
+    
+    finally {
+      //insert stuff here
+    }
   }
   
   //Method that deletes a shipment
   public static void DeleteShipment (String itemCode) {
     
+    try {
+     //insert stuff here 
+    }
+    
+    catch (SQLException exception) {
+      System.err.println("SQLException: " + exception.getMessage());
+      System.err.println("SQLState: " + exception.getSQLState());
+      System.err.println("VendorError: " + exception.getErrorCode()); 
+    }
+    
+    finally {
+      //insert stuff here
+    }
   }
   
   //Method that deletes a purchase
   public static void DeletePurchase (String itemCode) {
     
+     try {
+     //insert stuff here 
+    }
+    
+    catch (SQLException exception) {
+      System.err.println("SQLException: " + exception.getMessage());
+      System.err.println("SQLState: " + exception.getSQLState());
+      System.err.println("VendorError: " + exception.getErrorCode()); 
+    }
+    
+    finally {
+      //insert stuff here
+    }
   }
   
   //Prints the usage of the program
