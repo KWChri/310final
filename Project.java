@@ -201,7 +201,7 @@ System.err.println("VendorError: " + exception.getErrorCode());
   }
   
   //Method that shows the items that are available
-  public static void ItemsAvailable (String itemcCode) {
+  public static void ItemsAvailable (String itemCode) {
     
     try {
      //insert stuff here 
