@@ -6,11 +6,14 @@ public class Project {
   
   public static void main(String[] args) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
     
-    //**
-    // probably add some methods here for the connection to the databases
-    //
+    //Connect to Database
+    Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+    System.out.println();
+    System.out.println("JDBC driver loaded.");
     
-    //user input cases:
+    //Connection with information to get to database
+    //THIS NEEDS TO BE MODIFIED!!!!!!!!!!!!!!!!!!!!!!!!!
+    Connection connect = getConnection("port", "database name", "password");
 
     if (args[0].equals("/?")) {
       printUsage();
