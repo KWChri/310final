@@ -13,7 +13,7 @@ public class Project {
     
     //Connection with information to get to database
     //THIS NEEDS TO BE MODIFIED!!!!!!!!!!!!!!!!!!!!!!!!!
-    Connection connect = getConnection("port", "database name", "password");
+    Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
 
     if (args[0].equals("/?")) {
       printUsage();
