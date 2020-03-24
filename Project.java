@@ -29,39 +29,39 @@ public class Project {
     }
     
     else if (args[0].equals("CreateShipment") && args.length == 4) {
-      //method goes in here
+      CreateShipment(args[1], Integer.parseInt(args[2]), args[3]);
     }
     
     else if (args[0].equals("GetItems") && args.length == 2) {
-      //method goes in here
+      GetItems(args[1]);
     }
     
     else if (args[0].equals("GetShipments") && args.length == 2) {
-      //method goes in here
+      GetShipments(args[1]);
     }
     
     else if (args[0].equals("GetPurchases") && args.length == 2) {
-      //method goes in here
+      GetPurchases(args[1]);
     }
     
     else if (args[0].equals("ItemsAvailable") && args.length == 2) {
-      //method goes in here
+      ItemsAvailable(args[1]);
     }
     
     else if (args[0].equals("UpdateItem") && args.length == 3) {
-      //method goes in here
+      UpdateItem(args[1], args[2]);
     }
     
     else if (args[0].equals("DeleteItem") && args.length == 2) {
-      //method goes in here
+      DeleteItem(args[1]);
     }
     
     else if (args[0].equals("DeleteShipment") && args.length == 2) {
-      //method goes in here
+      DeleteShipment(args[1]);
     }
     
     else if (args[0].equals("DeletePurchase") && args.length == 2) {
-      //method goes in here
+      DeletePurchase(args[1]);
     }
     
     else {
@@ -472,6 +472,24 @@ private static ResultSet resultset = null;
       stmt = connect.createStatement();
       String update = "Select ItemCode From `Item` Where ItemCode = " + itemCode + "; Update Item Set Price = " + price + " Where itemCode = " + itemCode + ";";
       int res = stmt.executeUpdate(update);
+
+      stmt2 = connect.createStatement();
+      ResultSet resultSet = stmt2.executeQuery("Select * from `Item`;");
+
+      ResultSetMetaData rsmd = resultSet.getMetaData();
+ 
+      int columnsNumber = rsmd.getColumnCount();
+      while (resultSet.next()) {
+       for (int i = 1; i <= columnsNumber; i++) {
+         if (i > 1) System.out.print(",  ");
+           String columnValue = resultSet.getString(i);
+           System.out.print(columnValue + " " + rsmd.getColumnName(i));
+         }
+         System.out.println(" ");
+       }
+ 
+       System.out.println("Number of rows affected by the insert statement: "+res);
+
     }
     
     catch (SQLException exception) {
