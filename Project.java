@@ -311,9 +311,12 @@ Connection connect = null;
   
   //Method that shows the items that are available
   public static void ItemsAvailable (String itemCode) {
+	  
+	 String query = "CALL ItemsAvailable('" + itemCode + "');";
     
     try {
-     //insert stuff here 
+     	 stmt = connection.createStatement();
+	 resultset = stmt.executeQuery(query);
     }
     
     catch (SQLException exception) {
@@ -323,9 +326,34 @@ Connection connect = null;
     }
     
     finally {
-      //insert stuff here
+	    
+    //if the statement DOES NOT equate to NULL
+      if (stmt != null) {
+        try {
+          stmt.close();
+        }
+        catch (SQLException sqlEx) {
+          //ignore this
+        }
+        
+        //sets stmt to null
+        stmt = null;
+      }
+      
+      //if the result set DOES NOT equate to NULL
+      if (resultset != null) {
+        try {
+          resultset.close();
+        }
+        catch (SQLException sqlEx) {
+          //ignore this
+        } 
+        
+        //sets resultset to null
+        resultset = null;
+      }
     }
-  }
+  } //end of method
   
   //Method that updates an item
   public static void UpdateItem (String itemCode, String price) {
@@ -347,9 +375,15 @@ Connection connect = null;
   
   //Method that deletes an item
   public static void DeleteItem (String itemCode) {
+	  
+	 String query = "CALL DeleteItem('" + itemCode + "');";
     
     try {
-     //insert stuff here 
+     	 stmt = connection.createStatement();
+	 resultset = stmt.executeQuery(query);
+	    
+	 System.out.println();
+	 System.out.println("Item " + itemCode + " was deleted.");
     }
     
     catch (SQLException exception) {
@@ -359,9 +393,34 @@ Connection connect = null;
     }
     
     finally {
-      //insert stuff here
-    }
-  }
+	    
+      //if the statement DOES NOT equate to NULL
+      if (stmt != null) {
+        try {
+          stmt.close();
+        }
+        catch (SQLException sqlEx) {
+          //ignore this
+        }
+        
+        //sets stmt to null
+        stmt = null;
+      }
+      
+      //if the result set DOES NOT equate to NULL
+      if (resultset != null) {
+        try {
+          resultset.close();
+        }
+        catch (SQLException sqlEx) {
+          //ignore this
+        } 
+        
+        //sets resultset to null
+        resultset = null;
+      }    
+    } //end of finally clause
+  } //end of method
   
   //Method that deletes a shipment
   public static void DeleteShipment (String itemCode) {
@@ -395,9 +454,34 @@ Connection connect = null;
     }
     
     finally {
-      //insert stuff here
-    }
-  }
+	    
+      //if the statement DOES NOT equate to NULL
+      if (stmt != null) {
+        try {
+          stmt.close();
+        }
+        catch (SQLException sqlEx) {
+          //ignore this
+        }
+        
+        //sets stmt to null
+        stmt = null;
+      }
+      
+      //if the result set DOES NOT equate to NULL
+      if (resultset != null) {
+        try {
+          resultset.close();
+        }
+        catch (SQLException sqlEx) {
+          //ignore this
+        } 
+        
+        //sets resultset to null
+        resultset = null;
+      }
+    } //end of finally clause
+  } //end of method
   
   //Prints the usage of the program
   public static void printUsage() {
