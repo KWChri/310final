@@ -261,29 +261,24 @@ private static ResultSet resultset = null;
   
   //Method that gets the items
   public static void GetItems (String itemCode) {
+    String query = "Select * From Item Where Item.ItemCode = " + itemCode;
+    String queryWildcard = "SELECT * FROM Item";
+
     Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
 
     try {
      //insert stuff here 
      connect.setAutoCommit(false);
      stmt = connect.createStatement();
-
-     ResultSet resultSet = stmt.executeQuery("Select * from `Item`. Where itemCode = " + itemCode + ";"); 
-
+      if (itemCode.equals("%")) {
+        resultset = stmt.executeQuery(queryWildcard);
+      }
+      else {
+        resultset = stmt.executeQuery(query);
+      }
+      getResults(resultset);
      connect.commit();
-     System.out.println("Transaction done");
-
-     ResultSetMetaData rsmd = resultSet.getMetaData();
- 
-     int columnsNumber = rsmd.getColumnCount();
-     while (resultSet.next()) {
-      for (int i = 1; i <= columnsNumber; i++) {
-        if (i > 1) System.out.print(",  ");
-           String columnValue = resultSet.getString(i);
-           System.out.print(columnValue + " " + rsmd.getColumnName(i));
-         }
-         System.out.println(" ");
-       }
+     
 }
     
     catch (SQLException exception) {
@@ -293,7 +288,31 @@ private static ResultSet resultset = null;
     }
     
     finally {
-      //insert stuff here
+      //if the statement DOES NOT equate to NULL
+      if (stmt != null) {
+        try {
+          stmt.close();
+        }
+        catch (SQLException sqlEx) {
+          //ignore this
+        }
+        
+        //sets stmt to null
+        stmt = null;
+      }
+      
+      //if the result set DOES NOT equate to NULL
+      if (resultset != null) {
+        try {
+          resultset.close();
+        }
+        catch (SQLException sqlEx) {
+          //ignore this
+        } 
+        
+        //sets resultset to null
+        resultset = null;
+      }
     }
   }
   
@@ -360,18 +379,23 @@ private static ResultSet resultset = null;
   
   //Method that gets the purchases
   public static void GetPurchases (String itemCode) {
-    
+    String query = "Select * From Purchase Where Purchase.ItemID = " + itemCode;
+    String queryWildcard = "SELECT * FROM Purchase";
+
     Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
+
     try {
      connect.setAutoCommit(false);
      stmt = connect.createStatement();
-
-     ResultSet resultSet = stmt.executeQuery("Select * from `Purchase`. Where itemCode = " + itemCode + ";"); 
-
-     connect.commit();
-     System.out.println("Transaction done");
-
-     ResultSetMetaData rsmd = resultSet.getMetaData();
+      if (itemCode.equals("%")) {
+        resultset = stmt.executeQuery(queryWildcard);
+      }
+      else {
+        resultset = stmt.executeQuery(query);
+      }
+      getResults(resultset);
+      connect.commit();
+     
     }
     
     catch (SQLException exception) {
@@ -381,6 +405,7 @@ private static ResultSet resultset = null;
     }
     
     finally {
+      //if the statement DOES NOT equate to NULL
       if (stmt != null) {
         try {
           stmt.close();
@@ -406,6 +431,7 @@ private static ResultSet resultset = null;
         resultset = null;
       }
     }
+   
   }
   
   //Method that shows the items that are available
@@ -467,29 +493,13 @@ private static ResultSet resultset = null;
   public static void UpdateItem (String itemCode, String price) {
     
     Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
+    String query = "Call UpdateItem('" + itemCode + "', '" + price + "')";
     try {
       connect.setAutoCommit(false);
       stmt = connect.createStatement();
-      String update = "Select ItemCode From `Item` Where ItemCode = " + itemCode + "; Update Item Set Price = " + price + " Where itemCode = " + itemCode + ";";
-      int res = stmt.executeUpdate(update);
-
-      stmt2 = connect.createStatement();
-      ResultSet resultSet = stmt2.executeQuery("Select * from `Item`;");
-
-      ResultSetMetaData rsmd = resultSet.getMetaData();
- 
-      int columnsNumber = rsmd.getColumnCount();
-      while (resultSet.next()) {
-       for (int i = 1; i <= columnsNumber; i++) {
-         if (i > 1) System.out.print(",  ");
-           String columnValue = resultSet.getString(i);
-           System.out.print(columnValue + " " + rsmd.getColumnName(i));
-         }
-         System.out.println(" ");
-       }
- 
-       System.out.println("Number of rows affected by the insert statement: "+res);
-
+      resultset = stmt.executeQuery(query);
+      getResults(resultset);
+      connect.commit();
     }
     
     catch (SQLException exception) {
@@ -586,11 +596,17 @@ private static ResultSet resultset = null;
   
   //Method that deletes a shipment
   public static void DeleteShipment (String itemCode) {
+      String query = "CALL DeleteShipment('" + itemCode + "');";
     
-     Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
-    /*try {
-//insert stuff here 
-    }
+      Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
+     
+     try {
+	     stmt = connect.createStatement();
+         resultset = stmt.executeQuery(query);
+
+         System.out.println();
+         System.out.println("Shipment " + itemCode + " was deleted.");  
+     }
     
     catch (SQLException exception) {
       System.err.println("SQLException: " + exception.getMessage());
@@ -599,8 +615,33 @@ private static ResultSet resultset = null;
     }
     
     finally {
-      //insert stuff here
-    }*/
+	    
+      //if the statement DOES NOT equate to NULL
+      if (stmt != null) {
+        try {
+          stmt.close();
+        }
+        catch (SQLException sqlEx) {
+          //ignore this
+        }
+        
+        //sets stmt to null
+        stmt = null;
+      }
+      
+      //if the result set DOES NOT equate to NULL
+      if (resultset != null) {
+        try {
+          resultset.close();
+        }
+        catch (SQLException sqlEx) {
+          //ignore this
+        } 
+        
+        //sets resultset to null
+        resultset = null;
+      }
+    }
   }
   
   //Method that deletes a purchase
