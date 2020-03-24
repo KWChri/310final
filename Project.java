@@ -425,8 +425,16 @@ private static ResultSet resultset = null;
     
     try {
      	 Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
-       stmt = connect.createStatement();
+         stmt = connect.createStatement();
     	 resultset = stmt.executeQuery(query);
+	    
+	 System.out.println("ItemCode:\nItemDescription:\nAvilableItems\n");
+	 
+	 resultset.beforeFirst();
+	    
+	 while (resultset.next()) {
+	      System.out.println(resultset.getString(1) + ":\n" + resultset.getString(2) + ":\n" + resultset.getInt(3)"\n");
+	 }
     }
     
     catch (SQLException exception) {
