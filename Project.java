@@ -9,6 +9,10 @@ public class Project {
     
   public static void main(String[] args) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
     
+    if (args.length == 0)
+    {
+      printUsage();
+    }
     //Connect to Database
     Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
     System.out.println();
@@ -16,7 +20,6 @@ public class Project {
     
     //Connection with information to get to database
     //THIS NEEDS TO BE MODIFIED!!!!!!!!!!!!!!!!!!!!!!!!!
-    Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
 
     if (args[0].equals("/?")) {
       printUsage();
@@ -80,7 +83,7 @@ Connection connect = null;
   try {
     connect = DriverManager.getConnection("jdbc:mysql://localhost:" + port + "/test?verifyServerCertificate=false&useSSL=true", "msandbox", password);
 
-    System.out.println("Database" + database + " connection succeeded!! :~)");
+    System.out.println("Database " + database + " connection succeeded!! :~)");
     System.out.println();
   } 
 
@@ -709,7 +712,7 @@ private static ResultSet resultset = null;
     System.out.println("java Project DeleteItem <itemCode>");
     System.out.println("java Project DeleteShipment <itemCode>");
     System.out.println("java Project DeletePurchase <itemCode>");
-    
+    System.exit(0);
   }
   
   //Use result sets (tables) to navigate through the results
