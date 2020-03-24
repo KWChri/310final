@@ -150,35 +150,20 @@ private static ResultSet resultset = null;
   } //end of createItem method
   
   //Method the creates the purchase
-  public static void CreatePurchase (String itemCode, int purchaseQuantity) throws SQLException {
-    
-      Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
-    try {
+  public static void CreatePurchase (String itemCode, int purchaseQuantity) {
       
+      String query = "CALL CreatePurchase('" + itemCode + "', '" + purchaseQuantity + "')";
+      Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
+
+    try {
+
       connect.setAutoCommit(false);
       stmt = connect.createStatement();
-      String create = "Insert into `finalProject`.`Purchase` (ItemID, Quantity) Values ('" + itemCode + "', '" + purchaseQuantity + "')";
-      int res = stmt.executeUpdate(create);
+      resultset = stmt.executeQuery(query);
 
-      stmt2 = connect.createStatement();
-      ResultSet resultSet = stmt2.executeQuery("Select * from `finalProject` . `Purchase`;");
+      System.out.println();
+      System.out.println("Purchase " + itemCode + " created.");
 
-      connect.commit();
-      System.out.println("Transaction done");
-
-      ResultSetMetaData rsmd = resultSet.getMetaData();
- 
-      int columnsNumber = rsmd.getColumnCount();
-      while (resultSet.next()) {
-       for (int i = 1; i <= columnsNumber; i++) {
-         if (i > 1) System.out.print(",  ");
-           String columnValue = resultSet.getString(i);
-           System.out.print(columnValue + " " + rsmd.getColumnName(i));
-         }
-         System.out.println(" ");
-       }
- 
-       System.out.println("Number of rows affected by the insert statement: "+res);
     }
     
     catch (SQLException exception) {
@@ -214,8 +199,13 @@ private static ResultSet resultset = null;
       }
       
     }
-    connect.setAutoCommit(true);
-    connect.close();
+    try {
+      connect.setAutoCommit(true);
+      connect.close();
+    }
+    catch (SQLException sqlEx) {
+
+    }
   }
   
   //Method that creates the shipment
@@ -433,7 +423,7 @@ private static ResultSet resultset = null;
 	 resultset.beforeFirst();
 	    
 	 while (resultset.next()) {
-	      System.out.println(resultset.getString(1) + ":\n" + resultset.getString(2) + ":\n" + resultset.getInt(3)"\n");
+	      System.out.println(resultset.getString(1) + ":\n" + resultset.getString(2) + ":\n" + resultset.getInt(3) + "\n");
 	 }
     }
     
@@ -621,7 +611,7 @@ private static ResultSet resultset = null;
      Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
      
      try {
-	 stmt = connection.createStatement();
+	 stmt = connect.createStatement();
          resultset = stmt.executeQuery(query);
 
          System.out.println();
