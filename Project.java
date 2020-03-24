@@ -1,6 +1,8 @@
 import java.io.*;
 import java.util.*;
 import java.sql.*;
+import java.sql.Date;
+import java.sql.SQLException;
   
   
 public class Project {
@@ -21,7 +23,7 @@ public class Project {
     }
     
     else if (args[0].equals("CreateItem") && args.length == 4) {
-      //method goes in here
+      CreateItem(args[1], args[2], Double.parseDouble(args[3]));
     }
     
     else if (args[0].equals("CreatePurchase") && args.length == 3) {
@@ -95,7 +97,7 @@ private static Statement stmt2 = null;
 private static ResultSet resultset = null;
 
   //Method that creates the item
-  public static void CreateItem (String itemCode, String itemDescription, String price) {
+  public static void CreateItem (String itemCode, String itemDescription, double price) {
     
     String query = "CALL CreateItem('" + itemCode + "', '" + itemDescription + "'," + price + ");";    
     Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
@@ -217,7 +219,7 @@ private static ResultSet resultset = null;
   }
   
   //Method that creates the shipment
-  public static void CreateShipment (String itemCode, int shipmentQuantity, String shipmentDate) {
+  public static void CreateShipment (String itemCode, int shipmentQuantity, Date shipmentDate) {
     
     String query = "CALL CreateShipment('" + itemCode + "', " + shipmentQuantity + ", '" + shipmentDate + "');";
     Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
@@ -538,7 +540,8 @@ private static ResultSet resultset = null;
   public static void DeleteItem (String itemCode) {
 	  
 	 String query = "CALL DeleteItem('" + itemCode + "');";
-   Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
+   	 Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
+    
     try {
        stmt = connect.createStatement();
     	 resultset = stmt.executeQuery(query);
@@ -604,11 +607,18 @@ private static ResultSet resultset = null;
   
   //Method that deletes a purchase
   public static void DeletePurchase (String itemCode) {
+	  
+     String query = "CALL DeletePurchase('" + itemCode + "');";
     
      Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
-     /*try {
-//insert stuff here 
-    }
+     
+     try {
+	 stmt = connection.createStatement();
+         resultset = stmt.executeQuery(query);
+
+         System.out.println();
+         System.out.println("Purchase " + itemCode + " was deleted.");  
+     }
     
     catch (SQLException exception) {
       System.err.println("SQLException: " + exception.getMessage());
@@ -643,7 +653,7 @@ private static ResultSet resultset = null;
         //sets resultset to null
         resultset = null;
       }
-    }*/ //end of finally clause
+    } //end of finally clause
   } //end of method
   
   //Prints the usage of the program
