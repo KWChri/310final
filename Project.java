@@ -4,10 +4,6 @@ import java.sql.*;
   
   
 public class Project {
-
-  private Statement stmt = null;
-  private Statement stmt2 = null;
-  private ResultSet resultset = null;
     
   public static void main(String[] args) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
     
@@ -91,15 +87,22 @@ Connection connect = null;
     System.err.println("SQLState: " + exception.getSQLState());
     System.err.println("VendorError: " + exception.getErrorCode());
   }
-  
-}
+  return connect;
+}  
+
+private static Statement stmt = null;
+private static Statement stmt2 = null;
+private static ResultSet resultset = null;
+
   //Method that creates the item
   public static void CreateItem (String itemCode, String itemDescription, String price) {
     
     String query = "CALL CreateItem('" + itemCode + "', '" + itemDescription + "'," + price + ");";    
+    Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
     
     try {
-     stmt = connection.createStatement();
+
+     stmt = connect.createStatement();
      resultset = stmt.executeQuery(query);
      
      System.out.println();
@@ -145,13 +148,18 @@ Connection connect = null;
   } //end of createItem method
   
   //Method the creates the purchase
-  public void CreatePurchase (String itemCode, int purchaseQuantity) {
+  public static void CreatePurchase (String itemCode, int purchaseQuantity) throws SQLException {
     
+      Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
     try {
+      
       connect.setAutoCommit(false);
       stmt = connect.createStatement();
-      String create = "Insert into `" + dbname + "`.`Purchase` (ItemID, Quantity) Values ('" + itemCode + "', '" + purchaseQuantity + "')";
+      String create = "Insert into `finalProject`.`Purchase` (ItemID, Quantity) Values ('" + itemCode + "', '" + purchaseQuantity + "')";
       int res = stmt.executeUpdate(create);
+
+      stmt2 = connect.createStatement();
+      ResultSet resultSet = stmt2.executeQuery("Select * from `finalProject` . `Purchase`;");
 
       connect.commit();
       System.out.println("Transaction done");
@@ -178,27 +186,43 @@ Connection connect = null;
     }
     
     finally {
-      if (stmt != null)
-      {  
-        stmt.close();
+      if (stmt != null) {
+        try {
+          stmt.close();
+        }
+        catch (SQLException sqlEx) {
+          //ignore this
+        }
+        
+        //sets stmt to null
+        stmt = null;
       }
-      if (stmt2 != null)
-      {
-        stmt2.close();
+      
+      //if the result set DOES NOT equate to NULL
+      if (resultset != null) {
+        try {
+          resultset.close();
+        }
+        catch (SQLException sqlEx) {
+          //ignore this
+        } 
+        
+        //sets resultset to null
+        resultset = null;
       }
-      connect.setAutoCommit(true);
-      connect.close();
+      
     }
-    
+    connect.setAutoCommit(true);
+    connect.close();
   }
   
   //Method that creates the shipment
   public static void CreateShipment (String itemCode, int shipmentQuantity, String shipmentDate) {
     
-    String query = "CALL CreateShipment('" + itemCode + "', " + shipmentQuantity + ", '" + shipmentDate "');";
-    
+    String query = "CALL CreateShipment('" + itemCode + "', " + shipmentQuantity + ", '" + shipmentDate + "');";
+    Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
     try {
-     stmt = connection.createStatement();
+     stmt = connect.createStatement();
      resultset = stmt.executeQuery(query);
      
      System.out.println();
@@ -245,10 +269,30 @@ Connection connect = null;
   
   //Method that gets the items
   public static void GetItems (String itemCode) {
-    
+    Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
+
     try {
      //insert stuff here 
-    }
+     connect.setAutoCommit(false);
+     stmt = connect.createStatement();
+
+     ResultSet resultSet = stmt.executeQuery("Select * from `finalProject`. Where itemCode = " + itemCode + ";"); 
+
+     connect.commit();
+     System.out.println("Transaction done");
+
+     ResultSetMetaData rsmd = resultSet.getMetaData();
+ 
+     int columnsNumber = rsmd.getColumnCount();
+     while (resultSet.next()) {
+      for (int i = 1; i <= columnsNumber; i++) {
+        if (i > 1) System.out.print(",  ");
+           String columnValue = resultSet.getString(i);
+           System.out.print(columnValue + " " + rsmd.getColumnName(i));
+         }
+         System.out.println(" ");
+       }
+}
     
     catch (SQLException exception) {
       System.err.println("SQLException: " + exception.getMessage());
@@ -266,9 +310,10 @@ Connection connect = null;
     
     String query_1 = "SELECT * FROM Shipment;";
     String query_2 = "SELECT * FROM Shipment JOIN Item ON Shipment.ItemID = Item.ID WHERE Item.ItemCode = '" + itemCode + "';";
-    
+    Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
+
     try {
-     stmt = connection.createStatement();
+     stmt = connect.createStatement();
       
       //if itemCode equals to "%"
       if (itemCode.equals("%")) {
@@ -324,7 +369,9 @@ Connection connect = null;
   //Method that gets the purchases
   public static void GetPurchases (String itemCode) {
     
-    try {
+    Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
+    /*try {
+
      //insert stuff here 
     }
     
@@ -336,7 +383,7 @@ Connection connect = null;
     
     finally {
       //insert stuff here
-    }
+    }*/
   }
   
   //Method that shows the items that are available
@@ -345,8 +392,9 @@ Connection connect = null;
 	 String query = "CALL ItemsAvailable('" + itemCode + "');";
     
     try {
-     	 stmt = connection.createStatement();
-	 resultset = stmt.executeQuery(query);
+     	 Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
+       stmt = connect.createStatement();
+    	 resultset = stmt.executeQuery(query);
     }
     
     catch (SQLException exception) {
@@ -388,8 +436,9 @@ Connection connect = null;
   //Method that updates an item
   public static void UpdateItem (String itemCode, String price) {
     
-    try {
-     //insert stuff here 
+    Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
+    /*try {
+      //insert stuff here 
     }
     
     catch (SQLException exception) {
@@ -400,17 +449,17 @@ Connection connect = null;
     
     finally {
       //insert stuff here
-    }
+    }*/
   }
   
   //Method that deletes an item
   public static void DeleteItem (String itemCode) {
 	  
 	 String query = "CALL DeleteItem('" + itemCode + "');";
-    
+   Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
     try {
-     	 stmt = connection.createStatement();
-	 resultset = stmt.executeQuery(query);
+       stmt = connect.createStatement();
+    	 resultset = stmt.executeQuery(query);
 	    
 	 System.out.println();
 	 System.out.println("Item " + itemCode + " was deleted.");
@@ -455,8 +504,9 @@ Connection connect = null;
   //Method that deletes a shipment
   public static void DeleteShipment (String itemCode) {
     
-    try {
-     //insert stuff here 
+     Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
+    /*try {
+//insert stuff here 
     }
     
     catch (SQLException exception) {
@@ -467,14 +517,15 @@ Connection connect = null;
     
     finally {
       //insert stuff here
-    }
+    }*/
   }
   
   //Method that deletes a purchase
   public static void DeletePurchase (String itemCode) {
     
-     try {
-     //insert stuff here 
+     Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
+     /*try {
+//insert stuff here 
     }
     
     catch (SQLException exception) {
@@ -510,7 +561,7 @@ Connection connect = null;
         //sets resultset to null
         resultset = null;
       }
-    } //end of finally clause
+    }*/ //end of finally clause
   } //end of method
   
   //Prints the usage of the program
@@ -550,4 +601,5 @@ Connection connect = null;
 	    
 	System.out.println(" ");
     }
+}
 }
