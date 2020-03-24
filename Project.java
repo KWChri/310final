@@ -1,13 +1,14 @@
 import java.io.*;
 import java.util.*;
 import java.sql.*;
-
+  
+  
 public class Project {
 
-  Statement stmt = stmt2 = null;
-  ResultSet resultset = null;
-  String dbname = "finalProject";
-  
+  private Statement stmt = null;
+  private Statement stmt2 = null;
+  private ResultSet resultset = null;
+    
   public static void main(String[] args) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
     
     //Connect to Database
@@ -17,7 +18,7 @@ public class Project {
     
     //Connection with information to get to database
     //THIS NEEDS TO BE MODIFIED!!!!!!!!!!!!!!!!!!!!!!!!!
-    Connection connect = getConnection("55926", dbname, "5eu23rk4yl33");
+    Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
 
     if (args[0].equals("/?")) {
       printUsage();
@@ -28,7 +29,7 @@ public class Project {
     }
     
     else if (args[0].equals("CreatePurchase") && args.length == 3) {
-      CreatePurchase(args[1], args[2]);
+      CreatePurchase(args[1], Integer.parseInt(args[2]));
     }
     
     else if (args[0].equals("CreateShipment") && args.length == 4) {
@@ -74,7 +75,7 @@ public class Project {
   }
   
 //connection method for the database
-public static void getConnection(String port, String database, String password) { 
+public static Connection getConnection(String port, String database, String password) { 
 
 Connection connect = null;
 
@@ -144,10 +145,30 @@ Connection connect = null;
   } //end of createItem method
   
   //Method the creates the purchase
-  public static void CreatePurchase (String itemCode, int purchaseQuantity) {
+  public void CreatePurchase (String itemCode, int purchaseQuantity) {
     
     try {
-     
+      connect.setAutoCommit(false);
+      stmt = connect.createStatement();
+      String create = "Insert into `" + dbname + "`.`Purchase` (ItemID, Quantity) Values ('" + itemCode + "', '" + purchaseQuantity + "')";
+      int res = stmt.executeUpdate(create);
+
+      connect.commit();
+      System.out.println("Transaction done");
+
+      ResultSetMetaData rsmd = resultSet.getMetaData();
+ 
+      int columnsNumber = rsmd.getColumnCount();
+      while (resultSet.next()) {
+       for (int i = 1; i <= columnsNumber; i++) {
+         if (i > 1) System.out.print(",  ");
+           String columnValue = resultSet.getString(i);
+           System.out.print(columnValue + " " + rsmd.getColumnName(i));
+         }
+         System.out.println(" ");
+       }
+ 
+       System.out.println("Number of rows affected by the insert statement: "+res);
     }
     
     catch (SQLException exception) {
@@ -157,13 +178,22 @@ Connection connect = null;
     }
     
     finally {
-      //insert stuff here
+      if (stmt != null)
+      {  
+        stmt.close();
+      }
+      if (stmt2 != null)
+      {
+        stmt2.close();
+      }
+      connect.setAutoCommit(true);
+      connect.close();
     }
     
   }
   
   //Method that creates the shipment
-  public static void CreateShipment (String itemCode, int shipmentQuantity, date shipmentDate) {
+  public static void CreateShipment (String itemCode, int shipmentQuantity, String shipmentDate) {
     
     String query = "CALL CreateShipment('" + itemCode + "', " + shipmentQuantity + ", '" + shipmentDate "');";
     
