@@ -31,7 +31,7 @@ public class Project {
     }
     
     else if (args[0].equals("CreateShipment") && args.length == 4) {
-      CreateShipment(args[1], Integer.parseInt(args[2]), args[3]);
+      CreateShipment(args[1], Integer.parseInt(args[2]), Date.valueOf(args[3]));
     }
     
     else if (args[0].equals("GetItems") && args.length == 2) {
