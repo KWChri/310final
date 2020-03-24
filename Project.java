@@ -276,7 +276,7 @@ private static ResultSet resultset = null;
      connect.setAutoCommit(false);
      stmt = connect.createStatement();
 
-     ResultSet resultSet = stmt.executeQuery("Select * from `finalProject`. Where itemCode = " + itemCode + ";"); 
+     ResultSet resultSet = stmt.executeQuery("Select * from `Item`. Where itemCode = " + itemCode + ";"); 
 
      connect.commit();
      System.out.println("Transaction done");
@@ -370,9 +370,16 @@ private static ResultSet resultset = null;
   public static void GetPurchases (String itemCode) {
     
     Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
-    /*try {
+    try {
+     connect.setAutoCommit(false);
+     stmt = connect.createStatement();
 
-     //insert stuff here 
+     ResultSet resultSet = stmt.executeQuery("Select * from `Purchase`. Where itemCode = " + itemCode + ";"); 
+
+     connect.commit();
+     System.out.println("Transaction done");
+
+     ResultSetMetaData rsmd = resultSet.getMetaData();
     }
     
     catch (SQLException exception) {
@@ -382,8 +389,31 @@ private static ResultSet resultset = null;
     }
     
     finally {
-      //insert stuff here
-    }*/
+      if (stmt != null) {
+        try {
+          stmt.close();
+        }
+        catch (SQLException sqlEx) {
+          //ignore this
+        }
+        
+        //sets stmt to null
+        stmt = null;
+      }
+      
+      //if the result set DOES NOT equate to NULL
+      if (resultset != null) {
+        try {
+          resultset.close();
+        }
+        catch (SQLException sqlEx) {
+          //ignore this
+        } 
+        
+        //sets resultset to null
+        resultset = null;
+      }
+    }
   }
   
   //Method that shows the items that are available
@@ -437,8 +467,11 @@ private static ResultSet resultset = null;
   public static void UpdateItem (String itemCode, String price) {
     
     Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
-    /*try {
-      //insert stuff here 
+    try {
+      connect.setAutoCommit(false);
+      stmt = connect.createStatement();
+      String update = "Select ItemCode From `Item` Where ItemCode = " + itemCode + "; Update Item Set Price = " + price + " Where itemCode = " + itemCode + ";";
+      int res = stmt.executeUpdate(update);
     }
     
     catch (SQLException exception) {
@@ -448,8 +481,39 @@ private static ResultSet resultset = null;
     }
     
     finally {
-      //insert stuff here
-    }*/
+      if (stmt != null) {
+        try {
+          stmt.close();
+        }
+        catch (SQLException sqlEx) {
+          //ignore this
+        }
+        
+        //sets stmt to null
+        stmt = null;
+      }
+      
+      //if the result set DOES NOT equate to NULL
+      if (resultset != null) {
+        try {
+          resultset.close();
+        }
+        catch (SQLException sqlEx) {
+          //ignore this
+        } 
+        
+        //sets resultset to null
+        resultset = null;
+      }
+      
+    }
+    try {
+    connect.setAutoCommit(true);
+    connect.close();
+    }
+    catch (SQLException sqlEx) {
+
+    }
   }
   
   //Method that deletes an item
