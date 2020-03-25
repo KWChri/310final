@@ -498,7 +498,7 @@ private static ResultSet resultset = null;
   public static void UpdateItem (String itemCode, String price) {
     
     Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
-    String query = "Call finalProject.UpdateItem(" + itemCode + ", '" + price + "')";
+    String query = "Call finalProject.UpdateItem('" + itemCode + "', '" + price + "')";
     try {
       connect.setAutoCommit(false);
       stmt = connect.createStatement();
