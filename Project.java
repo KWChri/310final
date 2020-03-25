@@ -449,12 +449,12 @@ private static ResultSet resultset = null;
 	    
     	 resultset = stmt.executeQuery(query);
 	    
-	 System.out.println("ItemCode:\nItemDescription:\nAvilableItems\n");
+	 System.out.println("ItemCode:\tItemDescription:\tAvilableItems\n");
 	 
 	 resultset.beforeFirst();
 	    
 	 while (resultset.next()) {
-	      System.out.println(resultset.getString(1) + ":\n" + resultset.getString(2) + ":\n" + resultset.getInt(3) + "\n");
+	      System.out.println(resultset.getString(1) + ":\t\t" + resultset.getString(2) + ":\t\t" + resultset.getInt(3) + "\n");
 	 }
     }
     
