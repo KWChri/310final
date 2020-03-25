@@ -14,7 +14,7 @@ public class Project {
       printUsage();
     }
     //Connect to Database
-    Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+    Class.forName("com.mysql.cj.jdbc.Driver");
     System.out.println();
     System.out.println("JDBC driver loaded.");
     
@@ -102,7 +102,7 @@ private static ResultSet resultset = null;
   //Method that creates the item
   public static void CreateItem (String itemCode, String itemDescription, double price) {
     
-    String query = "CALL CreateItem('" + itemCode + "', '" + itemDescription + "'," + price + ");";    
+    String query = "CALL finalProject.CreateItem('" + itemCode + "', '" + itemDescription + "'," + price + ");";    
     Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
     
     try {
@@ -155,7 +155,7 @@ private static ResultSet resultset = null;
   //Method the creates the purchase
   public static void CreatePurchase (String itemCode, int purchaseQuantity) {
       
-      String query = "CALL CreatePurchase('" + itemCode + "', '" + purchaseQuantity + "')";
+      String query = "CALL finalProject.CreatePurchase('" + itemCode + "', " + purchaseQuantity + ")";
       Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
 
     try {
@@ -214,7 +214,7 @@ private static ResultSet resultset = null;
   //Method that creates the shipment
   public static void CreateShipment (String itemCode, int shipmentQuantity, Date shipmentDate) {
     
-    String query = "CALL CreateShipment('" + itemCode + "', " + shipmentQuantity + ", '" + shipmentDate + "');";
+    String query = "CALL finalProject.CreateShipment('" + itemCode + "', " + shipmentQuantity + ", '" + shipmentDate + "');";
     Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
     try {
      stmt = connect.createStatement();
@@ -264,8 +264,8 @@ private static ResultSet resultset = null;
   
   //Method that gets the items
   public static void GetItems (String itemCode) {
-    String query = "Select * From Item Where Item.ItemCode = " + itemCode;
-    String queryWildcard = "SELECT * FROM Item";
+    String query = "Select * From finalProject.Item Where Item.ItemCode = " + itemCode;
+    String queryWildcard = "SELECT * FROM finalProject.Item";
 
     Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
 
@@ -322,8 +322,8 @@ private static ResultSet resultset = null;
   //Method that gets the shipments
   public static void GetShipments (String itemCode) {
     
-    String query_1 = "SELECT * FROM Shipment;";
-    String query_2 = "SELECT * FROM Shipment JOIN Item ON Shipment.ItemID = Item.ID WHERE Item.ItemCode = '" + itemCode + "';";
+    String query_1 = "SELECT * FROM finalProject.Shipment;";
+    String query_2 = "SELECT * FROM finalProject.Shipment JOIN Item ON Shipment.ItemID = Item.ID WHERE Item.ItemCode = '" + itemCode + "';";
     Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
 
     try {
@@ -382,8 +382,8 @@ private static ResultSet resultset = null;
   
   //Method that gets the purchases
   public static void GetPurchases (String itemCode) {
-    String query = "Select * From Purchase Where Purchase.ItemID = " + itemCode;
-    String queryWildcard = "SELECT * FROM Purchase";
+    String query = "Select * From finalProject.Purchase Where Purchase.ItemID = " + itemCode;
+    String queryWildcard = "SELECT * FROM finalProject.Purchase";
 
     Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
 
@@ -440,7 +440,7 @@ private static ResultSet resultset = null;
   //Method that shows the items that are available
   public static void ItemsAvailable (String itemCode) {
 	  
-	 String query = "CALL ItemsAvailable('" + itemCode + "');";
+	 String query = "CALL finalProject.ItemsAvailable('" + itemCode + "');";
     
     try {
      	 Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
@@ -496,13 +496,15 @@ private static ResultSet resultset = null;
   public static void UpdateItem (String itemCode, String price) {
     
     Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
-    String query = "Call UpdateItem('" + itemCode + "', '" + price + "')";
+    String query = "Call finalProject.UpdateItem(" + itemCode + ", '" + price + "')";
     try {
       connect.setAutoCommit(false);
       stmt = connect.createStatement();
       resultset = stmt.executeQuery(query);
-      getResults(resultset);
       connect.commit();
+
+      System.out.println();
+      System.out.println("Item was successfully updated");
     }
     
     catch (SQLException exception) {
@@ -550,7 +552,7 @@ private static ResultSet resultset = null;
   //Method that deletes an item
   public static void DeleteItem (String itemCode) {
 	  
-	 String query = "CALL DeleteItem('" + itemCode + "');";
+	 String query = "CALL finalProject.DeleteItem('" + itemCode + "');";
    	 Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
     
     try {
@@ -599,7 +601,7 @@ private static ResultSet resultset = null;
   
   //Method that deletes a shipment
   public static void DeleteShipment (String itemCode) {
-      String query = "CALL DeleteShipment('" + itemCode + "');";
+      String query = "CALL finalProject.DeleteShipment('" + itemCode + "');";
     
       Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
      
@@ -650,7 +652,7 @@ private static ResultSet resultset = null;
   //Method that deletes a purchase
   public static void DeletePurchase (String itemCode) {
 	  
-     String query = "CALL DeletePurchase('" + itemCode + "');";
+     String query = "CALL finalProject.DeletePurchase('" + itemCode + "');";
     
      Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
      
