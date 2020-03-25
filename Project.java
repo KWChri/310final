@@ -440,34 +440,22 @@ private static ResultSet resultset = null;
   //Method that shows the items that are available
   public static void ItemsAvailable (String itemCode) {
 	  
-	 //String query = "CALL finalProject.ItemsAvailable('" + itemCode + "');";
+	 String query = "CALL finalProject.ItemsAvailable('" + itemCode + "');";
     
     try {
-	 String query = "SELECT ItemCode, ItemDescription,\n" +
-		 	"IFNULL(sum(s.Quantity), 0) - IFNULL(sum(p.Quantity), 0)\n" +
-		 	"AS AvailableItems FROM Item\n" +
-		 	"LEFT JOIN Shipment s\n" +
-		 	"ON Item.ID = s.ID\n" +
-		 	"LEFT JOIN Purchase p\n" +
-		 	"ON Item.ID = p.ID\n" +
-		 	"WHERE \"" + itemCode + "\" = ItemCode OR \"" + itemCode + "\" = '%' +
-		 	"GROUP BY ItemCode, ItemDescription;";
 	    
      	 Connection connect = getConnection("55926", "finalProject", "5eu23rk4yl33");
          stmt = connect.createStatement();
 	    
     	 resultset = stmt.executeQuery(query);
 	    
-	 getResults(resultset);
-	 //getResults(resultset);
-	    
-	 /*System.out.println("ItemCode:\nItemDescription:\nAvilableItems\n");
+	 System.out.println("ItemCode:\nItemDescription:\nAvilableItems\n");
 	 
 	 resultset.beforeFirst();
 	    
 	 while (resultset.next()) {
 	      System.out.println(resultset.getString(1) + ":\n" + resultset.getString(2) + ":\n" + resultset.getInt(3) + "\n");
-	 }*/
+	 }
     }
     
     catch (SQLException exception) {
