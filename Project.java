@@ -454,7 +454,7 @@ private static ResultSet resultset = null;
 	 resultset.beforeFirst();
 	    
 	 while (resultset.next()) {
-	      System.out.println(resultset.getString(1) + ":\t\t" + resultset.getString(2) + ":\t\t" + resultset.getInt(3) + "\n");
+	      System.out.println(resultset.getString(1) + ":\t\t" + resultset.getString(2) + ":\t\t" + resultset.getInt(3));
 	 }
     }
     
